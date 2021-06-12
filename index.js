@@ -7,6 +7,37 @@ app.use(express.json());
 
 app.use(
   morgan((tokens, req, res) => {
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, "content-length"),
+      "-",
+      tokens["response-time"](req, res),
+      "ms",
+      JSON.stringify(req.body),
+    ].join(" ");
+  })
+);
+
+/*
+morgan.token("tiny", function (req, res) {
+  return [
+    req.method,
+    req.url,
+    req.status,
+    res["content-length"],
+    "-",
+    ["response-time"],
+    "ms",
+    JSON.stringify[req.body],
+  ];
+});
+
+app.use(morgan("tiny"));
+
+app.use(
+  morgan((tokens, req, res) => {
     if (tokens.method(req, res) === "POST") {
       return [
         tokens.method(req, res),
@@ -31,6 +62,7 @@ app.use(
     }
   })
 );
+*/
 
 let persons = [
   {
