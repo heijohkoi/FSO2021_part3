@@ -1,9 +1,12 @@
 const { request } = require("express");
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const app = express();
 
 app.use(express.json());
+
+app.use(cors());
 
 app.use(
   morgan((tokens, req, res) => {
@@ -19,50 +22,6 @@ app.use(
     ].join(" ");
   })
 );
-
-/*
-morgan.token("tiny", function (req, res) {
-  return [
-    req.method,
-    req.url,
-    req.status,
-    res["content-length"],
-    "-",
-    ["response-time"],
-    "ms",
-    JSON.stringify[req.body],
-  ];
-});
-
-app.use(morgan("tiny"));
-
-app.use(
-  morgan((tokens, req, res) => {
-    if (tokens.method(req, res) === "POST") {
-      return [
-        tokens.method(req, res),
-        tokens.url(req, res),
-        tokens.status(req, res),
-        tokens.res(req, res, "content-length"),
-        "-",
-        tokens["response-time"](req, res),
-        "ms",
-        `{"name":"${req.body.name}","number":"${req.body.number}"}`,
-      ].join(" ");
-    } else {
-      return [
-        tokens.method(req, res),
-        tokens.url(req, res),
-        tokens.status(req, res),
-        tokens.res(req, res, "content-length"),
-        "-",
-        tokens["response-time"](req, res),
-        "ms",
-      ].join(" ");
-    }
-  })
-);
-*/
 
 let persons = [
   {
@@ -154,7 +113,7 @@ app.post("/api/persons", (req, res) => {
   res.json(person);
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
