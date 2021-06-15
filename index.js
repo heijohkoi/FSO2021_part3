@@ -62,7 +62,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
 app.post('/api/persons', (req, res) => {
   const body = req.body;
 
-  if (body.name === undefined) {
+  if (body.name === '') {
     return res.status(400).json({ error: 'content missing' });
   }
 
